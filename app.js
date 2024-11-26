@@ -422,7 +422,7 @@ const generateQuizForChapters = async (chapters, questionType, totalQuestions) =
     },
     {
       headers: {
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${process.env?.OPEN_AI_KEY}`,
         'Content-Type': 'application/json'
       }
     }

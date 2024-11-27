@@ -57,7 +57,7 @@ const quizSchema = new mongoose.Schema({
   },
   questionType: {
     type: String,
-    enum: ["True/False", "Multiple Choice", "Fill in the Blank", "Short Answer"], // Example of allowed types
+    enum: ["True/False", "Single Correct", "Fill in the Blank", "Short Answer"], // Example of allowed types
     required: true,
   },
   createdAt: {

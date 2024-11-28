@@ -130,6 +130,34 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
+app.get("/get-profile", authenticateToken, async (req, res) => {
+  try {
+    const { uid } = req; // `uid` is decoded and attached to the request by authenticateToken middleware
+
+    // Find the user by UID
+    const user = await User.findOne({ uid });
+    if (!user) {
+      return res.status(404).send({ error: "User not found" });
+    }
+
+    // Construct the response with user details and quiz scores
+    const response = {
+      uid: user.uid,
+      createdAt: user.createdAt,
+      quizzes: user.quizzes.map((quiz) => ({
+        quizId: quiz.quizId,
+        score: quiz.score,
+        attemptedAt: quiz.attemptedAt,
+      })),
+    };
+
+    res.status(200).send(response);
+  } catch (error) {
+    console.error("Error in /get-profile:", error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+});
+
 app.post("/submit-quiz", authenticateToken, async (req, res) => {
   try {
     const { uid } = req?.headers; // Extract user ID from the authenticated token
